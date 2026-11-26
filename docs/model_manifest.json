@@ -1,0 +1,22 @@
+{
+  "config.json": {
+    "bytes": 566,
+    "sha256": "9f53dc691f2059dace6dd835e4b8bbb9e789e3551771b401dc5a5a21e851b11d"
+  },
+  "model_state.pdparams": {
+    "bytes": 71655973,
+    "sha256": "6a2a1d231d0a83790d424501048bbfc429301024cb18ba675b45100b7c76b5dd"
+  },
+  "special_tokens_map.json": {
+    "bytes": 112,
+    "sha256": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3"
+  },
+  "tokenizer_config.json": {
+    "bytes": 198,
+    "sha256": "693278a3381c346094b00d59c42586eabebadd98fd11c303d9fdb8bf1b6b39fd"
+  },
+  "vocab.txt": {
+    "bytes": 186807,
+    "sha256": "8b99e7ded859fe015d33329c4a6d75cfba7784cfe8d82db7551fbf481f262fbb"
+  }
+}

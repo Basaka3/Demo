@@ -1,0 +1,15 @@
+
+
+
+
+*.o
+*.out
+a.out
+*.exe
+.vscode/
+.ideal/
+*.swp
+__pycahe__/
+vene/
+*.pyc
+.DS_Store

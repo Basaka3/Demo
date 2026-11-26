@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图书馆跨馆归还咨询</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #1e302b; background: #eff4f0; font: 16px/1.6 system-ui, sans-serif; }
+    main { max-width: 46rem; margin: 3rem auto; padding: 2rem; border: 1px solid #cedbd1; border-radius: 1rem; background: white; }
+    h1 { margin: 0 0 .3rem; font-size: 1.75rem; }
+    h2 { margin: 0 0 .5rem; font-size: 1.12rem; }
+    p { color: #475a52; }
+    label { display: block; margin-bottom: .35rem; font-weight: 600; }
+    .branches { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .8rem; }
+    select { display: block; width: 100%; margin-top: .3rem; padding: .45rem; border: 1px solid #81958a; border-radius: .5rem; font: inherit; background: white; color: inherit; }
+    textarea { width: 100%; min-height: 6rem; padding: .8rem; border: 1px solid #81958a; border-radius: .5rem; font: inherit; resize: vertical; }
+    button { margin-top: .65rem; padding: .6rem 1.25rem; border: 0; border-radius: .5rem; background: #15573f; color: white; font: inherit; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+    :focus-visible { outline: 3px solid #2f8a70; outline-offset: 3px; }
+    section { margin-top: 1.5rem; padding: 1rem; border-radius: .5rem; background: #f3f7f4; }
+    #answer { white-space: pre-wrap; overflow-wrap: anywhere; }
+    #sources { margin: .75rem 0 0; font-size: .9rem; }
+    @media (max-width: 48rem) { main { margin: 1rem; padding: 1.2rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>图书馆跨馆归还咨询</h1>
+    <p>请说明借出馆、计划归还的馆和馆藏类别。</p>
+    <form id="form">
+      <div class="branches">
+        <label for="borrow-branch">借出馆
+          <select id="borrow-branch" data-testid="borrow-branch">
+          <option value="">未选择</option>
+          <option value="E">东馆</option>
+          <option value="W">西馆</option>
+          <option value="S">南馆</option>
+          </select>
+        </label>
+        <label for="return-branch">拟还馆
+          <select id="return-branch" data-testid="return-branch">
+          <option value="">未选择</option>
+          <option value="E">东馆</option>
+          <option value="W">西馆</option>
+          <option value="S">南馆</option>
+          </select>
+        </label>
+      </div>
+      <label for="question">归还问题</label>
+      <textarea id="question" data-testid="question" maxlength="200"></textarea>
+      <button id="send" data-testid="submit" type="button">查询</button>
+    </form>
+    <section aria-labelledby="result-heading">
+      <h2 id="result-heading">答复</h2>
+      <div id="answer" data-testid="answer" data-decision="" role="status" aria-live="polite">等待提问。</div>
+      <p id="sources" data-testid="sources">资料来源：—</p>
+    </section>
+  </main>
+  <!-- 请按0501题要求补充网页交互。 -->
+</body>
+</html>

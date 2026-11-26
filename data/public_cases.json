@@ -1,0 +1,95 @@
+{
+  "embed_texts": [
+    "蓝桥杯第18届AI模型应用开发第二次模拟赛",
+    "普通纸质书的跨馆归还"
+  ],
+  "preview_format": {
+    "answer": "可在西馆归还。",
+    "sources": [
+      "R01"
+    ]
+  },
+  "preview_limits": {
+    "answer": "可在西馆归还。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。这是较长的补充说明。",
+    "sources": [
+      "R01"
+    ],
+    "candidates": [
+      {
+        "id": "R01",
+        "score": 0.9
+      },
+      {
+        "id": "R03",
+        "score": 0.7
+      },
+      {
+        "id": "R07",
+        "score": 0.4
+      },
+      {
+        "id": "R08",
+        "score": 0.19
+      }
+    ]
+  },
+  "answers": {
+    "P01": {
+      "question": "普通纸质书能在这儿还吗？",
+      "borrow_branch": "E",
+      "return_branch": "W"
+    },
+    "P02": {
+      "question": "一般的纸质读物能在这里交回去吗？",
+      "borrow_branch": "E",
+      "return_branch": "W"
+    },
+    "P03": {
+      "question": "书里配的那张盘能在这里还吗？",
+      "borrow_branch": "E",
+      "return_branch": "W"
+    },
+    "P04": {
+      "question": "普通纸质书能在这儿还吗？",
+      "borrow_branch": "E",
+      "return_branch": "S"
+    },
+    "P05": {
+      "question": "东馆借的普通书可以还吗？",
+      "borrow_branch": "E"
+    },
+    "P06": {
+      "question": "这个能还吗？",
+      "borrow_branch": "E",
+      "return_branch": "W"
+    },
+    "P07": {
+      "question": "电子书怎么续借？"
+    },
+    "P08": {
+      "question": "书里配的那张盘能在这里还吗？",
+      "borrow_branch": "E",
+      "return_branch": "E"
+    }
+  },
+  "answer_run": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08"
+  ],
+  "reuse_run": [
+    "P01",
+    "P03"
+  ],
+  "web_case": "P04",
+  "benchmark": [
+    "P01",
+    "P03",
+    "P05"
+  ]
+}

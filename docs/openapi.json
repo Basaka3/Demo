@@ -1,0 +1,505 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "图书馆跨馆还书助手",
+    "version": "library-v1"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/embed": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求格式有误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "模型或所需索引未就绪",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbedRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求格式有误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/answer": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求格式有误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "模型或所需索引未就绪",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cache/clear": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClearResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求格式有误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClearRequest"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Candidate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R(0[1-9]|1[0-2])$"
+          },
+          "score": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "id",
+          "score"
+        ],
+        "additionalProperties": false
+      },
+      "AnswerRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "description": "去首尾空白后最多200字符"
+          },
+          "borrow_branch": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "E",
+              "W",
+              "S",
+              null
+            ]
+          },
+          "return_branch": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "E",
+              "W",
+              "S",
+              null
+            ]
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "additionalProperties": false
+      },
+      "AnswerResponse": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "ALLOW",
+              "DENY",
+              "NEED_INFO",
+              "OUT_OF_SCOPE"
+            ]
+          },
+          "return_to": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "E",
+              "W",
+              "S",
+              null
+            ]
+          },
+          "missing_fields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "borrow_branch",
+                "return_branch",
+                "item_type"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "answer": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^R(0[1-9]|1[0-2])$"
+            },
+            "uniqueItems": true
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            }
+          }
+        },
+        "required": [
+          "decision",
+          "return_to",
+          "missing_fields",
+          "answer",
+          "sources",
+          "candidates"
+        ],
+        "additionalProperties": false
+      },
+      "PreviewRequest": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "pattern": "^[^\\r\\n\\x0b\\x0c\\x1c-\\x1e\\u0085\\u2028\\u2029]+$"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^R(0[1-9]|1[0-2])$"
+            },
+            "uniqueItems": true
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            }
+          }
+        },
+        "required": [
+          "answer",
+          "sources"
+        ],
+        "additionalProperties": false
+      },
+      "PreviewResponse": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^R(0[1-9]|1[0-2])$"
+            },
+            "uniqueItems": true
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            }
+          }
+        },
+        "required": [
+          "answer",
+          "sources",
+          "candidates"
+        ],
+        "additionalProperties": false
+      },
+      "EmbedRequest": {
+        "type": "object",
+        "properties": {
+          "texts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "去首尾空白后最多200字符"
+            },
+            "minItems": 1,
+            "maxItems": 4
+          }
+        },
+        "required": [
+          "texts"
+        ],
+        "additionalProperties": false
+      },
+      "EmbedResponse": {
+        "type": "object",
+        "properties": {
+          "dimension": {
+            "const": 312
+          },
+          "vectors": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 312,
+              "maxItems": 312
+            },
+            "minItems": 1,
+            "maxItems": 4
+          }
+        },
+        "required": [
+          "dimension",
+          "vectors"
+        ],
+        "additionalProperties": false
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "ready": {
+            "type": "boolean"
+          },
+          "dimension": {
+            "const": 312
+          },
+          "index_loaded": {
+            "type": "boolean"
+          },
+          "model_loads": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "query_encodes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "doc_encodes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cache_hits": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cache_entries": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cache_size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reuse_index": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ready",
+          "dimension",
+          "index_loaded",
+          "model_loads",
+          "query_encodes",
+          "doc_encodes",
+          "cache_hits",
+          "cache_entries",
+          "cache_size",
+          "reuse_index"
+        ],
+        "additionalProperties": false
+      },
+      "ClearRequest": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "ClearResponse": {
+        "type": "object",
+        "properties": {
+          "cache_entries": {
+            "const": 0
+          }
+        },
+        "required": [
+          "cache_entries"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}
